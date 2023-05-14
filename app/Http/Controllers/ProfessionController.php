@@ -17,7 +17,7 @@ class ProfessionController extends Controller
      */
     public function index()
     {
-        $professions = $this->profession->all();
+        $professions = $this->profession->with("employees")->get();
         return view("professions.index", [
             "professions" => $professions
         ]);
@@ -42,7 +42,7 @@ class ProfessionController extends Controller
         $profession->save();
         $_SESSION['msg'] = "Profession register with success";
         $_SESSION['msg_type'] = "success";
-        return redirect()->route("professions.index");
+        return redirect()->route("professions.show", $profession->id);
     }
 
     /**
@@ -50,7 +50,7 @@ class ProfessionController extends Controller
      */
     public function show($id)
     {
-        $profession = $this->profession->find($id);
+        $profession = $this->profession->with("employees")->find($id);
         if($profession === null) {
             $_SESSION["msg"] = "Profession not found";
             $_SESSION["msg_type"] = "danger";
@@ -88,7 +88,7 @@ class ProfessionController extends Controller
         $profession->update($request->all());
         $_SESSION['msg'] = "Profession updated with success";
         $_SESSION['msg_type'] = "success";
-        return redirect()->route("professions.index");
+        return redirect()->route("professions.show", $profession->id);
     }
 
     /**

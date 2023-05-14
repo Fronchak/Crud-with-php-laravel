@@ -7,9 +7,13 @@
             <a href="{{ route('professions.create') }}">Click here</a>
             to add a new profession
         </p>
+    </header>
         @foreach($professions as $profession)
             <div >
                 <h3>{{ $profession->name }}</h3>
+                <p>
+                <span class="fw-bold">Number of employees:</span>
+                {{ $profession->employees->count() }}</p>
                 <div>
                     <a class="btn btn-primary" href="{{ route('professions.show', $profession->id) }}">See more</a>
                     <a class="btn btn-primary" href="{{ route('professions.edit', $profession->id) }}">Edit</a>
@@ -17,6 +21,5 @@
                 <hr />
             </div>
         @endforeach
-    </header>
 </div>
 @endsection

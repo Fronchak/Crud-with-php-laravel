@@ -7,7 +7,7 @@
         @endif
         @csrf
         <div class="mb-3">
-            <label class="form-label">Name</label>
+            <label for="name" class="form-label">Name</label>
             <input
                 class="form-control {{ $errors->has('name') ? "is-invalid" : "" }}"
                 name="name"

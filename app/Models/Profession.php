@@ -22,4 +22,8 @@ class Profession extends Model
             "required" => "The :attribute is required"
         ];
     }
+
+    public function employees() {
+        return $this->hasMany("App\Models\Employee", "profession_id", "id");
+    }
 }
