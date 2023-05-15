@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('firstName', 50);
             $table->string('lastName');
+            $table->string('photo');
             $table->foreignId("profession_id")
                 ->constrained("professions", 'id');
             $table->timestamps();

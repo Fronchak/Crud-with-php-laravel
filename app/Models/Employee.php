@@ -15,6 +15,7 @@ class Employee extends Model
         return [
             "firstName" => "required|min:2|max:50",
             "lastName" => "required|min:2|max:256",
+            "photo" => "required|file|mimes:png,jpeg,jpg",
             "profession_id" => "required|exists:professions,id"
         ];
     }
@@ -23,7 +24,8 @@ class Employee extends Model
         return [
             'required' => "The :attribute is required",
             'profession_id.required' => "The profession is required",
-            'exists' => 'Profession not found'
+            'exists' => 'Profession not found',
+            "photo.mines" => 'Photo should be a picture'
         ];
     }
 

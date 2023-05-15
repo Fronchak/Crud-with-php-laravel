@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Models\Profession;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EmployeeController extends Controller
 {
@@ -38,8 +39,13 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $request->validate($this->employee->rules(), $this->employee->messages());
+
+        $photo = $request->file('photo');
+        $photoUrn = $photo->store('imgs/employees', 'public');
+
         $employee = new Employee();
         $employee->fill($request->all());
+        $employee->photo = $photoUrn;
         $employee->save();
         $_SESSION["msg"] = "Employee register with success";
         $_SESSION["msg_type"] = "success";
@@ -88,10 +94,30 @@ class EmployeeController extends Controller
             $_SESSION["msg_type"] = "danger";
             return redirect()->route("employees.index");
         }
-        $request->validate($employee->rules(), $employee->messages());
-        $employee->update($request->all());
+        $parameters = $request->all();
+        $rules = $employee->rules();
+        if(!array_key_exists('photo', $parameters)) {
+            unset($rules['photo']);
+        }
+        $request->validate($rules, $employee->messages());
+
+        $oldPhoto = $employee->photo;
+        $photo = $request->file('photo');
+        $photoUrn = null;
+        if($photo !== null) {
+            $photoUrn = $photo->store('imgs/employees', 'public');
+        }
+
+        $employee->fill($request->all());
+        if($photoUrn !== null) {
+            $employee->photo = $photoUrn;
+        }
+        $employee->update();
         $_SESSION["msg"] = "Employee updated with success";
         $_SESSION["msg_type"] = "success";
+        if($photoUrn !== null) {
+            Storage::disk('public')->delete($oldPhoto);
+        }
         return redirect()->route("employees.show", $employee->id);
     }
 

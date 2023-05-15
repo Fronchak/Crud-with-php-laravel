@@ -1,7 +1,9 @@
 <div class="form-container">
     <form
         method="post"
-        action="{{ $isUpdate ? route('employees.update', $employee->id) : route('employees.store') }}">
+        action="{{ $isUpdate ? route('employees.update', $employee->id) : route('employees.store') }}"
+        enctype="multipart/form-data"
+    >
         @if($isUpdate)
             @method("PUT")
         @endif
@@ -49,6 +51,19 @@
             </select>
             <div class="invalid-feedback d-block">
                 {{ $errors->has("profession_id") ? $errors->first("profession_id") : "" }}
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="photo">Photo</label>
+            <input
+                class="form-control {{ $errors->has("photo") ? "is-invalid" : '' }}"
+                name="photo"
+                type="file"
+                id="photo"
+                placeholder="Upload the photo"
+            />
+            <div class="invalid-feedback d-block">
+                {{ $errors->has("photo") ? $errors->first("photo") : "" }}
             </div>
         </div>
         <div>

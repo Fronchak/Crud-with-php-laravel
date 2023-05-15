@@ -53,3 +53,9 @@
     max-width: 480px;
     margin: 0 auto;
 }
+
+.rounded-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
