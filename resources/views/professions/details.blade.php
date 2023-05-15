@@ -21,14 +21,24 @@
     @unless($profession->employees->count() == 0)
         <h3 class="mt-3">List of employees</h3>
         @foreach($profession->employees as $employee)
-            <div>
-                <h4>
-                    <a href="{{ route('employees.show', $employee->id) }}">
-                        {{ $employee->name() }}
-                    </a>
-                </h4>
-                <hr />
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-1 text-center">
+                        <img
+                            src="{{ env('APP_URL') }}:8000/storage/{{ $employee->photo }}"
+                            class="img-fluid rounded-img very-small"
+                        />
+                    </div>
+                    <div class="col-11">
+                        <h4 class="mb-0">
+                            <a href="{{ route('employees.show', $employee->id) }}">
+                                {{ $employee->name() }}
+                            </a>
+                        </h4>
+                    </div>
+                </div>
             </div>
+            <hr />
         @endforeach
     @endif
 </div>
